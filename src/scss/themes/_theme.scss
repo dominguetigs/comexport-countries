@@ -69,12 +69,7 @@ $custom-accent-color: (
 );
 
 $comexport-countries-primary: mat-palette($custom-primary-color);
-$comexport-countries-accent: mat-palette(
-  $custom-accent-color,
-  A200,
-  A100,
-  A400
-);
+$comexport-countries-accent: mat-palette($custom-accent-color, 700, 600, 800);
 $comexport-countries-warn: mat-palette($mat-red);
 
 $comexport-countries-theme: mat-light-theme(
