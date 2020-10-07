@@ -1,5 +1,17 @@
 <app-header></app-header>
 <div class="main-container">
   <app-loader></app-loader>
-  <div class="middle-container">dadasd</div>
+  <div class="middle-container">
+    <router-outlet></router-outlet>
+    <!-- <alphabet-filter
+      propAlphaOrder="name"
+      propsSearch="name"
+      placeholder="digite o nome do contato"
+      height="100%"
+      [data]="contacts"
+      [noSmoothScroll]="true"
+      (onClick)="selected($event)"
+    >
+    </alphabet-filter> -->
+  </div>
 </div>
