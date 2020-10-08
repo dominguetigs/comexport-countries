@@ -9,8 +9,6 @@
     <a routerLink="/countries">Search</a> / {{ country?.name }}
   </div>
 
-  <span fxFlex="0 1 10px"></span>
-
   <div
     class="principal-container"
     fxLayout="column"
@@ -32,7 +30,7 @@
       >
         <div fxFlex fxFlex.gt-sm="0 1 30%">
           <div fxLayout="column" fxLayoutGap="4px">
-            <h3>Names</h3>
+            <h2>Names</h2>
             <mat-card fxFlex>
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span class="font-weight-bold">Common</span>
@@ -69,7 +67,7 @@
           </mat-accordion>
         </div>
         <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
-          <h3>Languages</h3>
+          <h2>Languages</h2>
           <mat-card fxFlex>
             <div
               fxLayout="row"
@@ -81,7 +79,7 @@
             </div>
           </mat-card>
         </div>
-        <img fxFlex fxFlex.gt-sm="0 1 33%" [src]="country?.flag" alt="Flag" />
+        <img fxFlex fxFlex.gt-sm="0 1 30%" [src]="country?.flag" alt="Flag" />
       </div>
 
       <div
@@ -92,8 +90,8 @@
         fxLayoutGap="32px"
         fxLayoutGap.gt-sm="0"
       >
-        <div fxFlex fxFlex.gt-sm="0 1 33%" fxLayout="column" fxLayoutGap="4px">
-          <h3>Codes</h3>
+        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
+          <h2>Codes</h2>
           <mat-card fxFlex>
             <div fxLayout="row" fxLayoutAlign="space-between center">
               <span class="font-weight-bold">ISO 3166-1 alpha-2</span>
@@ -117,8 +115,8 @@
             </div>
           </mat-card>
         </div>
-        <div fxFlex fxFlex.gt-sm="0 1 33%" fxLayout="column" fxLayoutGap="4px">
-          <h3>Geography</h3>
+        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
+          <h2>Geography</h2>
           <mat-card fxFlex>
             <div fxLayout="row" fxLayoutAlign="space-between center">
               <span class="font-weight-bold">Region</span>
@@ -150,107 +148,111 @@
             </div>
           </mat-card>
         </div>
+        <div fxHide fxShow.gt-sm fxFlex="0 1 30%"></div>
       </div>
 
-      <span fxFlex="0 1 25px"></span>
+      <mat-divider class="divider"></mat-divider>
 
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title
-              ><span>
-                Países que também usam da(s) mesma(s) moeda(s)
-                <span class="font-weight-bold"
-                  >({{ country?.currencies | join: "code" }})</span
-                >
-              </span></mat-panel-title
-            >
-          </mat-expansion-panel-header>
-          <div fxLayout="column" fxLayoutGap="16px">
-            <ng-container
-              *ngFor="
-                let countryByCurrency of allCountriesRelatedByCurrency
-                  | keyvalue
-              "
-            >
-              <div
-                *ngIf="countryByCurrency?.value?.length"
-                fxLayout="row"
-                fxLayoutAlign="start"
-                fxLayoutGap="16px"
+      <div fxLayout="column" fxLayoutGap="4px">
+        <h2>Extras</h2>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title
+                ><span>
+                  Países que também usam da(s) mesma(s) moeda(s)
+                  <span class="font-weight-bold"
+                    >({{ country?.currencies | join: "code" }})</span
+                  >
+                </span></mat-panel-title
               >
-                <span class="font-weight-bold">{{
-                  countryByCurrency?.key
-                }}</span>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutGap="16px">
+              <ng-container
+                *ngFor="
+                  let countryByCurrency of allCountriesRelatedByCurrency
+                    | keyvalue
+                "
+              >
                 <div
-                  fxLayout="row wrap"
-                  fxLayoutAlign="start center"
-                  fxLayoutGap="8px"
+                  *ngIf="countryByCurrency?.value?.length"
+                  fxLayout="row"
+                  fxLayoutAlign="start"
+                  fxLayoutGap="16px"
                 >
-                  <img
-                    *ngFor="let countryFlag of countryByCurrency?.value"
-                    [src]="countryFlag?.flag"
-                    [alt]="countryFlag?.name + ' flag'"
-                    fxFlex="0 0 25px"
-                    [matTooltip]="countryFlag?.name"
-                    matTooltipPosition="above"
-                    [routerLink]="'/countries/' + countryFlag?.name"
-                  />
+                  <span class="font-weight-bold">{{
+                    countryByCurrency?.key
+                  }}</span>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="8px"
+                  >
+                    <img
+                      *ngFor="let countryFlag of countryByCurrency?.value"
+                      [src]="countryFlag?.flag"
+                      [alt]="countryFlag?.name + ' flag'"
+                      fxFlex="0 0 25px"
+                      [matTooltip]="countryFlag?.name"
+                      matTooltipPosition="above"
+                      [routerLink]="'/countries/' + countryFlag?.name"
+                    />
+                  </div>
                 </div>
-              </div>
-            </ng-container>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+              </ng-container>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
 
-      <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title
-              ><span>
-                Países que também falam da(s) mesma(s) língua(s)
-                <span class="font-weight-bold"
-                  >({{ country?.languages | join: "iso639_2" }})</span
-                >
-              </span></mat-panel-title
-            >
-          </mat-expansion-panel-header>
-          <div fxLayout="column" fxLayoutGap="16px">
-            <ng-container
-              *ngFor="
-                let countryByLanguage of allCountriesRelatedByLanguage
-                  | keyvalue
-              "
-            >
-              <div
-                *ngIf="countryByLanguage?.value?.length"
-                fxLayout="row"
-                fxLayoutAlign="start"
-                fxLayoutGap="16px"
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title
+                ><span>
+                  Países que também falam da(s) mesma(s) língua(s)
+                  <span class="font-weight-bold"
+                    >({{ country?.languages | join: "iso639_2" }})</span
+                  >
+                </span></mat-panel-title
               >
-                <span class="font-weight-bold">{{
-                  countryByLanguage?.key
-                }}</span>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutGap="16px">
+              <ng-container
+                *ngFor="
+                  let countryByLanguage of allCountriesRelatedByLanguage
+                    | keyvalue
+                "
+              >
                 <div
-                  fxLayout="row wrap"
-                  fxLayoutAlign="start center"
-                  fxLayoutGap="8px"
+                  *ngIf="countryByLanguage?.value?.length"
+                  fxLayout="row"
+                  fxLayoutAlign="start"
+                  fxLayoutGap="16px"
                 >
-                  <img
-                    *ngFor="let countryFlag of countryByLanguage?.value"
-                    [src]="countryFlag?.flag"
-                    [alt]="countryFlag?.name + ' flag'"
-                    fxFlex="0 1 25px"
-                    [matTooltip]="countryFlag?.name"
-                    matTooltipPosition="above"
-                    [routerLink]="'/countries/' + countryFlag?.name"
-                  />
+                  <span class="font-weight-bold">{{
+                    countryByLanguage?.key
+                  }}</span>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="8px"
+                  >
+                    <img
+                      *ngFor="let countryFlag of countryByLanguage?.value"
+                      [src]="countryFlag?.flag"
+                      [alt]="countryFlag?.name + ' flag'"
+                      fxFlex="0 1 25px"
+                      [matTooltip]="countryFlag?.name"
+                      matTooltipPosition="above"
+                      [routerLink]="'/countries/' + countryFlag?.name"
+                    />
+                  </div>
                 </div>
-              </div>
-            </ng-container>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+              </ng-container>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
 
       <span fxFlex="0 1 25px"></span>
     </div>

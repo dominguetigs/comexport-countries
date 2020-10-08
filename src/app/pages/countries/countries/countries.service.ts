@@ -7,8 +7,6 @@ import { RestCountriesService } from 'src/app/core/services/rest-countries.servi
 
 import { ICountry } from '../../../shared/interfaces/country.interface';
 
-import { Region } from '../../../shared/types/region.type';
-
 @Injectable()
 export class CountriesService implements Resolve<any> {
   allCountriesChanged: ReplaySubject<ICountry[]>;
@@ -76,13 +74,6 @@ export class CountriesService implements Resolve<any> {
 
         this.allCountriesChanged.next(countries);
 
-        return countries;
-      })
-    );
-
-    return this._restCountriesService.readByRegion(region).pipe(
-      map((countries: ICountry[]) => {
-        this.allCountriesChanged.next(countries);
         return countries;
       })
     );

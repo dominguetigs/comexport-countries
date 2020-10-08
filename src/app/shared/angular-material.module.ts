@@ -5,6 +5,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
 
     MatCardModule,
+    MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
@@ -34,6 +36,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FormsModule,
 
     MatCardModule,
+    MatDividerModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
