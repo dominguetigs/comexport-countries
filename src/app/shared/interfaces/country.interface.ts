@@ -1,3 +1,7 @@
+import { ICurrency } from './currency.interface';
+import { ILanguage } from './language.interface';
+import { IRegionalBlocs } from './regional-blocs.interface';
+
 export interface ICountry {
   name: string;
   topLevelDomain: string[];
@@ -17,24 +21,10 @@ export interface ICountry {
   borders: string[];
   nativeName: string;
   numericCode: string;
-  currencies: {
-    code: string;
-    name: string;
-    symbol: string;
-  }[];
-  languages: {
-    iso639_1: string;
-    iso639_2: string;
-    name: string;
-    nativeName: string;
-  }[];
+  currencies: ICurrency[];
+  languages: ILanguage[];
   translations: { [key: string]: string };
   flag: string;
-  regionalBlocs: {
-    acronym: string;
-    name: string;
-    otherAcronyms: string[];
-    otherNames: string[];
-  }[];
+  regionalBlocs: IRegionalBlocs[];
   cioc: string;
 }

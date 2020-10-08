@@ -5,15 +5,24 @@ import { AngularMaterialModule } from './angular-material.module';
 
 import { AlphabetFilterModule } from 'alphabet-filter';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [LoaderComponent],
-  imports: [CommonModule, AngularMaterialModule, AlphabetFilterModule],
+  imports: [
+    CommonModule,
+    AngularMaterialModule,
+    AlphabetFilterModule,
+    FlexLayoutModule,
+  ],
   exports: [
     CommonModule,
     AngularMaterialModule,
     AlphabetFilterModule,
+    FlexLayoutModule,
+
     LoaderComponent,
   ],
 })

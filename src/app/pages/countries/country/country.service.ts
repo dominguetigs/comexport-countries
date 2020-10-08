@@ -3,13 +3,14 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Utils } from '../../../core/utils/utils';
+
 import { RestCountriesService } from 'src/app/core/services/rest-countries.service';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { ILanguage } from 'src/app/shared/interfaces/language.interface';
 
 import { ICountry } from '../../../shared/interfaces/country.interface';
-
-interface ICountryByRelationship {
-  [key: string]: ICountry[];
-}
+import { ICountryByRelationship } from '../../../shared/interfaces/country-by-relationship.interface';
 
 @Injectable()
 export class CountryService implements Resolve<any> {
@@ -36,8 +37,7 @@ export class CountryService implements Resolve<any> {
    * @returns {Observable<any> | Promise<any> | any}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
-    console.log(route);
-    // this.countryName = route;
+    this.countryName = route?.params?.name;
     return this.readByName().toPromise();
   }
 
@@ -51,10 +51,25 @@ export class CountryService implements Resolve<any> {
    * @returns {Observable<ICountry[]>}
    */
   readByName(): Observable<ICountry> {
-    return this._restCountriesService.readByName('').pipe(
+    return this._restCountriesService.readByName(this.countryName).pipe(
       map((countries: ICountry[]) => {
-        this.countryChanged.next(countries[0]);
-        return countries[0];
+        const country = countries[0];
+
+        this.countryChanged.next(country);
+
+        this.readByAllCurrencyCodes(
+          country.currencies
+            .map((currency: ICurrency) => currency.code)
+            .filter((currencyCode: string) => currencyCode)
+        ).toPromise();
+
+        this.readByAllLanguageCodes(
+          country.languages
+            .map((language: ILanguage) => language.iso639_2)
+            .filter((languageCode: string) => languageCode)
+        ).toPromise();
+
+        return country;
       })
     );
   }
@@ -72,9 +87,25 @@ export class CountryService implements Resolve<any> {
       this._restCountriesService.readByCurrencyCode(currencyCode)
     );
     return forkJoin(requests).pipe(
-      map((countriesByCurrencyCode: ICountry[][]) =>
-        this._groupByKey(currencyCodes, countriesByCurrencyCode)
-      )
+      map((countriesByCurrencyCode: ICountry[][]) => {
+        const response = this._groupByKey(
+          currencyCodes,
+          countriesByCurrencyCode.map((countries: ICountry[]) =>
+            Utils.excludeBySpecificFieldValue(
+              countries,
+              'name',
+              this.countryName
+            ).map((country: ICountry) => ({
+              name: country.name,
+              flag: country.flag,
+            }))
+          )
+        );
+
+        this.allCountriesRelatedByCurrencyChanged.next(response);
+
+        return response;
+      })
     );
   }
 
@@ -91,9 +122,25 @@ export class CountryService implements Resolve<any> {
       this._restCountriesService.readByLanguageCode(languageCode)
     );
     return forkJoin(requests).pipe(
-      map((countriesByLanguageCode: ICountry[][]) =>
-        this._groupByKey(languageCodes, countriesByLanguageCode)
-      )
+      map((countriesByLanguageCode: ICountry[][]) => {
+        const response = this._groupByKey(
+          languageCodes,
+          countriesByLanguageCode.map((countries: ICountry[]) =>
+            Utils.excludeBySpecificFieldValue(
+              countries,
+              'name',
+              this.countryName
+            ).map((country: ICountry) => ({
+              name: country.name,
+              flag: country.flag,
+            }))
+          )
+        );
+
+        this.allCountriesRelatedByLanguageChanged.next(response);
+
+        return response;
+      })
     );
   }
 
@@ -111,7 +158,7 @@ export class CountryService implements Resolve<any> {
   private _groupByKey(keys: string[], arr: any[]): { [key: string]: any[] } {
     let groupByKey = {};
 
-    for (let i = 0; i < keys.length; i += 1) {
+    for (let i = 0; i < keys?.length; i += 1) {
       groupByKey[keys[i]] = arr[i];
     }
 
