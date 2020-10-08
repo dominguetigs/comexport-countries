@@ -7,6 +7,8 @@ import { RestCountriesService } from 'src/app/core/services/rest-countries.servi
 
 import { ICountry } from '../../../shared/interfaces/country.interface';
 
+import { Region } from '../../../shared/types/region.type';
+
 @Injectable()
 export class CountriesService implements Resolve<any> {
   allCountriesChanged: ReplaySubject<ICountry[]>;
@@ -14,7 +16,7 @@ export class CountriesService implements Resolve<any> {
   /**
    * Constructor
    *
-   * @param {HttpClient} _http
+   * @param {RestCountriesService} _restCountriesService
    */
   constructor(private _restCountriesService: RestCountriesService) {
     // Set the private defaults
@@ -27,8 +29,7 @@ export class CountriesService implements Resolve<any> {
    * @returns {Observable<any> | Promise<any> | any}
    */
   resolve(): Observable<any> | Promise<any> | any {
-    console.log(12312313);
-    return this.getAll().toPromise();
+    return this.readAll().toPromise();
   }
 
   // -----------------------------------------------------------------------------------------------
@@ -40,8 +41,23 @@ export class CountriesService implements Resolve<any> {
    *
    * @returns {Observable<ICountry[]>}
    */
-  getAll(): Observable<ICountry[]> {
-    return this._restCountriesService.getAll().pipe(
+  readAll(): Observable<ICountry[]> {
+    return this._restCountriesService.readAll().pipe(
+      map((countries: ICountry[]) => {
+        this.allCountriesChanged.next(countries);
+        return countries;
+      })
+    );
+  }
+
+  /**
+   * Read all countries by region
+   *
+   * @param {Region} region
+   * @returns {Observable<ICountry[]>}
+   */
+  readByRegion(region: Region): Observable<ICountry[]> {
+    return this._restCountriesService.readByRegion(region).pipe(
       map((countries: ICountry[]) => {
         this.allCountriesChanged.next(countries);
         return countries;
