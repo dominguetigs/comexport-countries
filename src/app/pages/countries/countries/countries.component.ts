@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,8 +26,12 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  countries: ICountry[];
+  loading: boolean;
+  regionCtrl = new FormControl();
   displayedColumns: string[];
   dataSource: MatTableDataSource<ICountry>;
+  regions: string[];
 
   private _unsubscribeAll: Subject<any>;
 
@@ -38,6 +43,7 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private _countriesService: CountriesService) {
     // Set the defaults
     this.displayedColumns = [
+      'flag',
       'name',
       'capital',
       'region',
@@ -45,6 +51,8 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
       'currencies',
       'population',
     ];
+    this.loading = false;
+    this.regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();
@@ -63,6 +71,8 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
     this._countriesService.allCountriesChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((countries: ICountry[]) => {
+        this.loading = false;
+        this.countries = countries;
         this.dataSource = new MatTableDataSource(countries);
       });
   }
@@ -105,5 +115,12 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  filterByRegion(): void {
+    this.loading = true;
+    this._countriesService
+      .readAllCountriesByRegion(this.regionCtrl.value)
+      .toPromise();
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Observable, ReplaySubject } from 'rxjs';
+import { forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { RestCountriesService } from 'src/app/core/services/rest-countries.service';
@@ -51,12 +51,35 @@ export class CountriesService implements Resolve<any> {
   }
 
   /**
-   * Read all countries by region
+   * Read all countries by region(s)
    *
-   * @param {Region} region
+   * @param {string[]} regions
    * @returns {Observable<ICountry[]>}
    */
-  readByRegion(region: Region): Observable<ICountry[]> {
+  readAllCountriesByRegion(regions: string[]): Observable<ICountry[]> {
+    if (!regions?.length) {
+      return this.readAll();
+    }
+
+    const requests = regions.map((region: string) =>
+      this._restCountriesService.readByRegion(region)
+    );
+
+    return forkJoin(requests).pipe(
+      map((countriesByRegion: ICountry[][]) => {
+        const countries = countriesByRegion.reduce(
+          (currentValue, accumulator) => {
+            return accumulator.concat(...currentValue);
+          },
+          []
+        );
+
+        this.allCountriesChanged.next(countries);
+
+        return countries;
+      })
+    );
+
     return this._restCountriesService.readByRegion(region).pipe(
       map((countries: ICountry[]) => {
         this.allCountriesChanged.next(countries);

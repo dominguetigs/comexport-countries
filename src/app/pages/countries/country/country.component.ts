@@ -84,22 +84,4 @@ export class CountryComponent implements OnInit, OnDestroy {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
-
-  // -----------------------------------------------------------------------------------------------
-  // Public methods
-  // -----------------------------------------------------------------------------------------------
-
-  getCurrencyCodes(): string {
-    return this.country.currencies
-      .map((currency: ICurrency) => currency.code)
-      .filter((currency: string) => currency)
-      .join(', ');
-  }
-
-  getLanguageCodes(): string {
-    return this.country.languages
-      .map((language: ILanguage) => language.iso639_2)
-      .filter((language: string) => language)
-      .join(', ');
-  }
 }
