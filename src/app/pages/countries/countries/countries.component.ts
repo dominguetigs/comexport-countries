@@ -59,7 +59,7 @@ export class CountriesComponent implements OnInit, OnDestroy {
       'population',
     ];
     this.loading = false;
-    this.regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
+    this.regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania', 'Polar'];
 
     // Set the private defaults
     this._unsubscribeAll = new Subject();

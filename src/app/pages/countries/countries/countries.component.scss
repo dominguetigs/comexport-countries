@@ -1,7 +1,15 @@
 .mat-table {
   overflow: auto;
-  max-height: calc(100% - 200px);
+  max-height: 600px;
   width: 100%;
+
+  @media screen and (max-width: 374px) {
+    max-height: 300px;
+  }
+
+  @media screen and (min-width: 375px) and (max-width: 768px) {
+    max-height: 400px;
+  }
 
   img {
     cursor: pointer;

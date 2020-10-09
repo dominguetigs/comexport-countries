@@ -9,6 +9,7 @@ import { ICountry } from 'src/app/shared/interfaces/country.interface';
 import { ICountryByRelationship } from '../../../shared/interfaces/country-by-relationship.interface';
 import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 import { ILanguage } from 'src/app/shared/interfaces/language.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-country',
@@ -22,6 +23,7 @@ export class CountryComponent implements OnInit, OnDestroy {
   loading: number;
   hasCountriesByCurrency: boolean;
   hasCountriesByLanguage: boolean;
+  gmapUrl: string;
 
   private _unsubscribeAll: Subject<any>;
 
@@ -55,6 +57,7 @@ export class CountryComponent implements OnInit, OnDestroy {
         this.loading = 0;
         this.loading += 1;
         this.country = country;
+        this._setGMapUrlOptions();
       });
 
     // Read all countries by currency code
@@ -83,5 +86,22 @@ export class CountryComponent implements OnInit, OnDestroy {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  private _setGMapUrlOptions(): void {
+    // Set initial url
+    this.gmapUrl = 'https://maps.googleapis.com/maps/api/staticmap?';
+
+    // Set lat and lng
+    this.gmapUrl += `center=${this.country?.latlng[0]},${this.country?.latlng[1]}&`;
+
+    // Set zoom
+    this.gmapUrl += `zoom=6&`;
+
+    // Set size
+    this.gmapUrl += `size=300x250&`;
+
+    // Set api key
+    this.gmapUrl += `key=${environment.gc_api_key}`;
   }
 }

@@ -2,7 +2,7 @@
   class="country-container"
   *ngIf="true"
   fxLayout="column"
-  fxLayoutAlign="start"
+  fxLayoutAlign="start center"
   fxLayoutGap="32px"
 >
   <div class="breadcrumb-container">
@@ -11,7 +11,7 @@
   </div>
 
   <div
-    class="principal-container"
+    class="principal-container px-15"
     fxLayout="column"
     fxLayoutAlign="start"
     fxLayoutGap="16px"
@@ -151,20 +151,9 @@
             </div>
           </div>
         </div>
-        <div fxFlex fxFlex.gt-sm="0 1 20%" fxLayout="column" fxLayoutGap="16px">
+        <div fxFlex fxFlex.gt-sm="0 1 17%" fxLayout="column" fxLayoutGap="16px">
           <img width="100%" [src]="country?.flag" alt="Flag" />
-          <agm-map
-            [style.width]="'100%'"
-            [style.height]="'200px'"
-            [zoom]="5"
-            [latitude]="country?.latlng[0]"
-            [longitude]="country?.latlng[1]"
-          >
-            <agm-marker
-              [latitude]="country?.latlng[0]"
-              [longitude]="country?.latlng[1]"
-            ></agm-marker>
-          </agm-map>
+          <img width="100%" [src]="gmapUrl" alt="Country Google Map" />
         </div>
       </div>
 
