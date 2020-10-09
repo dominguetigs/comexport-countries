@@ -96,7 +96,7 @@ export class CountryComponent implements OnInit, OnDestroy {
     this.gmapUrl += `center=${this.country?.latlng[0]},${this.country?.latlng[1]}&`;
 
     // Set zoom
-    this.gmapUrl += `zoom=${this.country?.name === 'Antarctica' ? '2' : '5'}&`;
+    this.gmapUrl += `zoom=${this.country?.name === 'Antarctica' ? '2' : '3'}&`;
 
     // Set size
     this.gmapUrl += `size=300x250&`;
