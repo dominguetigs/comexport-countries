@@ -1,7 +1,7 @@
 <h1>Comexport Countries</h1>
 
 <h3 align="center">
-    <b style="color: #569f59">Procure por qualquer páis!</b>  
+    <b>Procure por qualquer páis!</b>  
     <br>
 </h3>
 
@@ -51,10 +51,10 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 ## :heavy_check_mark: :iphone: Resultado Mobile
 
-<h1 align="center" style="display: flex; align-items: start; justify-contente: center; width: 100px">
-    <img style="margin-right: 10px" alt="Mobile Countries" src=".github/mobile-1.jpeg" width="100%">
-    <img style="margin-right: 10px" alt="Mobile Country-1" src=".github/mobile-2.jpeg" width="100%">
-    <img alt="Mobile Country-2" src=".github/mobile-3.jpeg" width="100%">
+<h1 align="center">
+    <img alt="Mobile Countries" src=".github/mobile-1.jpeg" width="100px">
+    <img alt="Mobile Country-1" src=".github/mobile-2.jpeg" width="100px">
+    <img alt="Mobile Country-2" src=".github/mobile-3.jpeg" width="100px">
 </h1>
 
 <a id="como-usar"></a>
