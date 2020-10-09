@@ -51,7 +51,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 ## :heavy_check_mark: :iphone: Resultado Mobile
 
-<h1 align="center" style="display: flex; align-items: start; justify-contente: center; width: 200px">
+<h1 align="center" style="display: flex; align-items: start; justify-contente: center; width: 100px">
     <img style="margin-right: 10px" alt="Mobile Countries" src=".github/mobile-1.jpeg" width="100%">
     <img style="margin-right: 10px" alt="Mobile Country-1" src=".github/mobile-2.jpeg" width="100%">
     <img alt="Mobile Country-2" src=".github/mobile-3.jpeg" width="100%">
