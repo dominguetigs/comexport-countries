@@ -22,12 +22,12 @@ $sides: (top, bottom, left, right);
       padding-#{$side}: #{$space}px !important;
     }
 
-    .px#{$space} {
+    .px-#{$space} {
       padding-left: #{$space}px !important;
       padding-right: #{$space}px !important;
     }
 
-    .py#{$space} {
+    .py-#{$space} {
       padding-top: #{$space}px !important;
       padding-bottom: #{$space}px !important;
     }
