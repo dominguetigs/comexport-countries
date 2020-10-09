@@ -29,7 +29,7 @@
 
 ## :bookmark: Sobre
 
-O <strong>ComexportCountries</strong> é uma aplicação Web e Mobile para ajudar pessoas a encontrarem países pelo mundo e visualizar suas características como nome, líguas, moedas, geografia, etc.
+O <strong>Comexport Countries</strong> é uma aplicação Web e Mobile para ajudar pessoas a encontrarem países pelo mundo e visualizar suas características como nome, líguas, moedas, geografia, etc.
 
 <a id="tecnologias-utilizadas"></a>
 
