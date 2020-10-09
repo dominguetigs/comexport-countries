@@ -13,6 +13,7 @@ body {
 
 body {
   font-family: "Open Sans", sans-serif;
-  background-color: $white;
+  background: $white;
   color: $dark-grey;
+  -webkit-font-smoothing: antialiased;
 }

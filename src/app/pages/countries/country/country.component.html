@@ -17,6 +17,7 @@
     fxLayoutGap="16px"
   >
     <h1>{{ country?.name }}</h1>
+    https://sass-lang.com/
 
     <span fxFlex="0 1 20px"></span>
 
@@ -166,7 +167,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title class="line-height-normal"
                 ><span>
-                  Países que também usam da(s) mesma(s) moeda(s)
+                  Countries that also use the same currency(s)
                   <span class="font-weight-bold"
                     >({{ country?.currencies | join: "code" }})</span
                   >
@@ -215,7 +216,7 @@
             <mat-expansion-panel-header>
               <mat-panel-title class="line-height-normal"
                 ><span>
-                  Países que também falam da(s) mesma(s) língua(s)
+                  Countries that also speak the same language(s)
                   <span class="font-weight-bold"
                     >({{ country?.languages | join: "iso639_2" }})</span
                   >
