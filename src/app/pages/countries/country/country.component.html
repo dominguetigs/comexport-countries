@@ -3,10 +3,11 @@
   *ngIf="true"
   fxLayout="column"
   fxLayoutAlign="start"
-  fxLayoutGap="16px"
+  fxLayoutGap="32px"
 >
   <div class="breadcrumb-container">
-    <a routerLink="/countries">Search</a> / {{ country?.name }}
+    <a routerLink="/countries">Search</a> /
+    <span class="font-weight-bold">{{ country?.name }}</span>
   </div>
 
   <div
@@ -19,136 +20,141 @@
 
     <span fxFlex="0 1 20px"></span>
 
-    <div class="middle-container" fxLayout="column" fxLayoutGap="32px">
-      <div
-        fxLayout="column"
-        fxLayout.gt-sm="row"
-        fxLayoutAlign="space-between"
-        fxLayoutAlign.gt-sm="space-between start"
-        fxLayoutGap="32px"
-        fxLayoutGap.gt-sm="0"
-      >
-        <div fxFlex fxFlex.gt-sm="0 1 30%">
-          <div fxLayout="column" fxLayoutGap="4px">
-            <h2>Names</h2>
-            <mat-card fxFlex>
-              <div fxLayout="row" fxLayoutAlign="space-between center">
-                <span class="font-weight-bold">Common</span>
-                <span>{{ country?.name }}</span>
+    <div class="middle-container" fxLayout="column" fxLayoutGap="16px">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="16px">
+        <div fxFlex fxLayout="column" fxLayoutGap="16px">
+          <div
+            fxLayout="column"
+            fxLayout.gt-sm="row"
+            fxLayoutGap="16px"
+            [style.width]="'100%'"
+          >
+            <div fxFlex>
+              <div fxLayout="column" fxLayoutGap="4px">
+                <h2>Names</h2>
+                <mat-card>
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="font-weight-bold">Common</span>
+                    <span>{{ country?.name }}</span>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="font-weight-bold">Native</span>
+                    <span>{{ country?.nativeName }}</span>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span class="font-weight-bold">Alternative Spellings</span>
+                    <span>{{ country?.altSpellings.join(", ") }}</span>
+                  </div>
+                </mat-card>
               </div>
-              <div fxLayout="row" fxLayoutAlign="space-between center">
-                <span class="font-weight-bold">Native</span>
-                <span>{{ country?.nativeName }}</span>
-              </div>
-              <div fxLayout="row" fxLayoutAlign="space-between center">
-                <span class="font-weight-bold">Alternative Spellings</span>
-                <span>{{ country?.altSpellings.join(", ") }}</span>
-              </div>
-            </mat-card>
-          </div>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title
-                  ><span class="font-weight-bold"
-                    >Translations</span
-                  ></mat-panel-title
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title
+                      ><span class="font-weight-bold"
+                        >Translations</span
+                      ></mat-panel-title
+                    >
+                  </mat-expansion-panel-header>
+                  <ng-container
+                    *ngFor="let translation of country?.translations | keyvalue"
+                  >
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <span class="font-weight-bold">{{
+                        translation?.key
+                      }}</span>
+                      <span>{{ translation?.value }}</span>
+                    </div>
+                  </ng-container>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <div fxFlex fxLayout="column" fxLayoutGap="4px">
+              <h2>Languages</h2>
+              <mat-card>
+                <div
+                  fxLayout="row"
+                  fxLayoutAlign="space-between center"
+                  *ngFor="let language of country?.languages"
                 >
-              </mat-expansion-panel-header>
-              <ng-container
-                *ngFor="let translation of country?.translations | keyvalue"
-              >
-                <div fxLayout="row" fxLayoutAlign="space-between center">
-                  <span class="font-weight-bold">{{ translation?.key }}</span>
-                  <span>{{ translation?.value }}</span>
+                  <span class="font-weight-bold">{{ language?.iso639_2 }}</span>
+                  <span>{{ language?.name }}</span>
                 </div>
-              </ng-container>
-            </mat-expansion-panel>
-          </mat-accordion>
+              </mat-card>
+            </div>
+          </div>
+          <div
+            fxLayout="column"
+            fxLayout.gt-sm="row"
+            fxLayoutGap="16px"
+            [style.width]="'100%'"
+          >
+            <div fxFlex fxLayout="column" fxLayoutGap="4px">
+              <h2>Codes</h2>
+              <mat-card>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">ISO 3166-1 alpha-2</span>
+                  <span>{{ country?.alpha2Code }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">ISO 3166-1 alpha-3</span>
+                  <span>{{ country?.alpha3Code }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">ISO 3166-1 numeric</span>
+                  <span>{{ country?.numericCode }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold"
+                    >International calling code</span
+                  >
+                  <span>{{ country?.callingCodes[0] }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Top level domain</span>
+                  <span>{{ country?.topLevelDomain[0] }}</span>
+                </div>
+              </mat-card>
+            </div>
+            <div fxFlex fxLayout="column" fxLayoutGap="4px">
+              <h2>Geography</h2>
+              <mat-card>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Region</span>
+                  <span>{{ country?.region }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Subregion</span>
+                  <span>{{ country?.subregion }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Capital</span>
+                  <span>{{ country?.capital }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Demonym</span>
+                  <span>{{ country?.demonym }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Lat/Lng</span>
+                  <span>{{ country?.latlng }}</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Area</span>
+                  <span>{{ country?.area }} km²</span>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <span class="font-weight-bold">Land borders</span>
+                  <span>{{ country?.borders.join(", ") }}</span>
+                </div>
+              </mat-card>
+            </div>
+          </div>
         </div>
-        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
-          <h2>Languages</h2>
-          <mat-card fxFlex>
-            <div
-              fxLayout="row"
-              fxLayoutAlign="space-between center"
-              *ngFor="let language of country?.languages"
-            >
-              <span class="font-weight-bold">{{ language?.iso639_2 }}</span>
-              <span>{{ language?.name }}</span>
-            </div>
-          </mat-card>
+        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="16px">
+          <img width="100%" [src]="country?.flag" alt="Flag" />
+          <div fxHide fxShow.gt-sm></div>
         </div>
-        <img fxFlex fxFlex.gt-sm="0 1 30%" [src]="country?.flag" alt="Flag" />
-      </div>
-
-      <div
-        fxLayout="column"
-        fxLayout.gt-sm="row"
-        fxLayoutAlign="space-between"
-        fxLayoutAlign.gt-sm="space-between start"
-        fxLayoutGap="32px"
-        fxLayoutGap.gt-sm="0"
-      >
-        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
-          <h2>Codes</h2>
-          <mat-card fxFlex>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">ISO 3166-1 alpha-2</span>
-              <span>{{ country?.alpha2Code }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">ISO 3166-1 alpha-3</span>
-              <span>{{ country?.alpha3Code }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">ISO 3166-1 numeric</span>
-              <span>{{ country?.numericCode }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">International calling code</span>
-              <span>{{ country?.callingCodes[0] }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Top level domain</span>
-              <span>{{ country?.topLevelDomain[0] }}</span>
-            </div>
-          </mat-card>
-        </div>
-        <div fxFlex fxFlex.gt-sm="0 1 30%" fxLayout="column" fxLayoutGap="4px">
-          <h2>Geography</h2>
-          <mat-card fxFlex>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Region</span>
-              <span>{{ country?.region }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Subregion</span>
-              <span>{{ country?.subregion }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Capital</span>
-              <span>{{ country?.capital }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Demonym</span>
-              <span>{{ country?.demonym }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Lat/Lng</span>
-              <span>{{ country?.latlng }}</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Area</span>
-              <span>{{ country?.area }} km²</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-              <span class="font-weight-bold">Land borders</span>
-              <span>{{ country?.borders.join(", ") }}</span>
-            </div>
-          </mat-card>
-        </div>
-        <div fxHide fxShow.gt-sm fxFlex="0 1 30%"></div>
       </div>
 
       <mat-divider class="divider"></mat-divider>
@@ -158,7 +164,7 @@
         <mat-accordion>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title
+              <mat-panel-title class="line-height-normal"
                 ><span>
                   Países que também usam da(s) mesma(s) moeda(s)
                   <span class="font-weight-bold"
@@ -207,7 +213,7 @@
         <mat-accordion>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
-              <mat-panel-title
+              <mat-panel-title class="line-height-normal"
                 ><span>
                   Países que também falam da(s) mesma(s) língua(s)
                   <span class="font-weight-bold"
@@ -253,8 +259,6 @@
           </mat-expansion-panel>
         </mat-accordion>
       </div>
-
-      <span fxFlex="0 1 25px"></span>
     </div>
   </div>
 </div>

@@ -1,18 +1,25 @@
 <div [style]="{ height: '100%', display: !loading ? 'block' : 'none' }">
   <div
     fxLayout="column"
-    fxLayout.gt-sm="row"
+    fxLayout.gt-xs="row"
     fxLayoutAlign="start"
-    fxLayoutAlign.gt-sm="space-between center"
-    fxLayoutGap="8px"
+    fxLayoutAlign.gt-xs="space-between center"
+    fxLayoutGap="-20px"
+    fxLayoutGap.gt-xs="8px"
   >
     <!-- Search -->
-    <mat-form-field fxFlex fxFlex.gt-sm="0 1 75%">
+    <mat-form-field fxFlex fxFlex.gt-md="0 1 60%">
       <mat-label>Filter</mat-label>
       <input #filter matInput placeholder="Ex.: Brazil" />
       <mat-icon class="icon" matSuffix> search </mat-icon>
     </mat-form-field>
-    <mat-form-field fxFlex fxFlex.gt-sm="0 1 25%">
+    <mat-form-field
+      fxFlex
+      fxFlex.sm="0 1 30%"
+      fxFlex.md="0 1 25%"
+      fxFlex.lg="0 1 20%"
+      fxFlex.gt-lg="0 1 15%"
+    >
       <mat-label>Filter by region</mat-label>
       <mat-select
         (selectionChange)="filterByRegion()"
@@ -35,8 +42,25 @@
   <mat-table #table class="mat-elevation-z8" [dataSource]="dataSource" matSort>
     <!-- Flag Column -->
     <ng-container matColumnDef="flag">
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell
+        *matHeaderCellDef
+        class="mx-5"
+        fxFlex="0 1 25%"
+        fxFlex.sm="0 1 10%"
+        fxFlex.md="0 1 6%"
+        fxFlex.lg="0 1 5%"
+        fxFlex.gt-lg="0 1 4%"
+      >
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxFlex="0 1 25%"
+        fxFlex.sm="0 1 10%"
+        fxFlex.md="0 1 6%"
+        fxFlex.lg="0 1 5%"
+        fxFlex.gt-lg="0 1 4%"
+      >
         <img
           [routerLink]="'/countries/' + row?.name"
           [src]="row?.flag"
@@ -48,56 +72,131 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="mx-5" fxFlex>
         Name
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" class="mx-5" fxFlex>
         {{ row?.name }}
       </mat-cell>
     </ng-container>
 
     <!-- Capital Column -->
     <ng-container matColumnDef="capital">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="mx-5"
+        fxHide
+        fxShow.gt-xs
+        fxFlex.sm="0 1 25%"
+        fxFlex.gt-sm="0 1 15%"
+      >
         Capital
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxHide
+        fxShow.gt-xs
+        fxFlex.sm="0 1 25%"
+        fxFlex.gt-sm="0 1 15%"
+      >
         {{ row?.capital }}
       </mat-cell>
     </ng-container>
 
     <!-- Region Column -->
     <ng-container matColumnDef="region">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="mx-5"
+        fxHide
+        fxShow.gt-xs
+        fxFlex.sm="0 1 25%"
+        fxFlex.gt-sm="0 1 15%"
+      >
         Region
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxHide
+        fxShow.gt-xs
+        fxFlex.sm="0 1 25%"
+        fxFlex.gt-sm="0 1 15%"
+      >
         {{ row?.region }}
       </mat-cell>
     </ng-container>
 
     <!-- Languages Column -->
     <ng-container matColumnDef="languages">
-      <mat-header-cell *matHeaderCellDef> Languages </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell
+        *matHeaderCellDef
+        class="mx-5"
+        fxHide
+        fxShow.gt-sm
+        fxFlex.md="0 1 18%"
+        fxFlex.gt-md="0 1 15%"
+      >
+        Languages
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxHide
+        fxShow.gt-sm
+        fxFlex.md="0 1 18%"
+        fxFlex.gt-md="0 1 15%"
+      >
         {{ row?.languages | join: "iso639_2" }}
       </mat-cell>
     </ng-container>
 
     <!-- Currencies Column -->
     <ng-container matColumnDef="currencies">
-      <mat-header-cell *matHeaderCellDef> Currencies </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell
+        *matHeaderCellDef
+        class="mx-5"
+        fxHide
+        fxShow.gt-sm
+        fxFlex.md="0 1 18%"
+        fxFlex.gt-md="0 1 15%"
+      >
+        Currencies
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxHide
+        fxShow.gt-sm
+        fxFlex.md="0 1 18%"
+        fxFlex.gt-md="0 1 15%"
+      >
         {{ row?.currencies | join: "code" }}
       </mat-cell>
     </ng-container>
 
     <!-- Population Column -->
     <ng-container matColumnDef="population">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="mx-5"
+        fxHide
+        fxShow.lg
+        fxFlex.lg="0 1 10%"
+      >
         Population
       </mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-cell
+        *matCellDef="let row"
+        class="mx-5"
+        fxHide
+        fxShow.lg
+        fxFlex.lg="0 1 10%"
+      >
         {{ row?.population }}
       </mat-cell>
     </ng-container>
@@ -108,6 +207,7 @@
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       matRipple
+      [routerLink]="'/countries/' + row?.name"
     ></mat-row>
 
     <!-- <mat-row *matNoDataRow>
@@ -120,7 +220,7 @@
     #paginator
     [length]="dataSource.filteredData?.length"
     [pageIndex]="0"
-    [pageSize]="5"
+    [pageSize]="10"
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
   ></mat-paginator>
