@@ -38,9 +38,9 @@ O <strong>Comexport Countries</strong> é uma aplicação Web e Mobile para ajud
 O projeto foi desenvolvido utilizando as seguintes tecnologias
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [Node.js](https://nodejs.org/en/)
 - [Angular](https://angular.io/)
 - [Rxjs](https://www.learnrxjs.io/)
+- [Sass](https://sass-lang.com/)
 
 ## :heavy_check_mark: :computer: Resultado Web
 
