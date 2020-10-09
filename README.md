@@ -52,9 +52,9 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias
 ## :heavy_check_mark: :iphone: Resultado Mobile
 
 <h1 align="center">
-    <img alt="Mobile Countries" src=".github/mobile-1.jpeg" width="100px">
-    <img alt="Mobile Country-1" src=".github/mobile-2.jpeg" width="100px">
-    <img alt="Mobile Country-2" src=".github/mobile-3.jpeg" width="100px">
+    <img alt="Mobile Countries" src=".github/mobile-1.jpeg" width="150px">
+    <img alt="Mobile Country-1" src=".github/mobile-2.jpeg" width="150px">
+    <img alt="Mobile Country-2" src=".github/mobile-3.jpeg" width="150px">
 </h1>
 
 <a id="como-usar"></a>
