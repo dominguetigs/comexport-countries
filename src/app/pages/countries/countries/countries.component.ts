@@ -1,6 +1,6 @@
 import {
-  AfterViewInit,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -8,12 +8,13 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { CountriesService } from './countries.service';
+
+import { CountriesTableDataSource } from './countries-table-data-source';
 
 import { ICountry } from 'src/app/shared/interfaces/country.interface';
 
@@ -22,15 +23,21 @@ import { ICountry } from 'src/app/shared/interfaces/country.interface';
   templateUrl: './countries.component.html',
   styleUrls: ['./countries.component.scss'],
 })
-export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+export class CountriesComponent implements OnInit, OnDestroy {
+  @ViewChild(MatSort, { static: true })
+  sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+
+  @ViewChild('filter', { static: true })
+  filter: ElementRef;
 
   countries: ICountry[];
   loading: boolean;
   regionCtrl = new FormControl();
   displayedColumns: string[];
-  dataSource: MatTableDataSource<ICountry>;
+  dataSource: CountriesTableDataSource | null;
   regions: string[];
 
   private _unsubscribeAll: Subject<any>;
@@ -68,23 +75,37 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
    * @returns {void}
    */
   ngOnInit(): void {
+    this.dataSource = new CountriesTableDataSource(
+      this._countriesService,
+      this.paginator,
+      this.sort
+    );
+
+    fromEvent(this.filter?.nativeElement, 'keyup')
+      .pipe(
+        takeUntil(this._unsubscribeAll),
+        debounceTime(150),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        if (!this.dataSource) {
+          return;
+        }
+
+        if (
+          !this.filter.nativeElement.value.length ||
+          this.filter.nativeElement.value.length > 3
+        ) {
+          this.dataSource.filter = this.filter.nativeElement.value;
+        }
+      });
+
     this._countriesService.allCountriesChanged
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((countries: ICountry[]) => {
         this.loading = false;
         this.countries = countries;
-        this.dataSource = new MatTableDataSource(countries);
       });
-  }
-
-  /**
-   * After view init
-   *
-   * @returns {void}
-   */
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -103,20 +124,10 @@ export class CountriesComponent implements OnInit, OnDestroy, AfterViewInit {
   // -----------------------------------------------------------------------------------------------
 
   /**
-   * Apply filter
+   * Filter countries by region
    *
-   * @param {Event} event
    * @returns {void}
    */
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
   filterByRegion(): void {
     this.loading = true;
     this._countriesService

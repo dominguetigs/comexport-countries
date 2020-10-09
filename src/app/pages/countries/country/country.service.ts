@@ -38,7 +38,12 @@ export class CountryService implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
     this.countryName = route?.params?.name;
-    return this.readByName().toPromise();
+
+    return new Promise((resolve, reject) => {
+      Promise.all([this.readByName().toPromise()]).then(() => {
+        resolve();
+      }, reject);
+    });
   }
 
   // -----------------------------------------------------------------------------------------------

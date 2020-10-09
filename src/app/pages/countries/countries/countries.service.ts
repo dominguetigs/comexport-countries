@@ -9,6 +9,8 @@ import { ICountry } from '../../../shared/interfaces/country.interface';
 
 @Injectable()
 export class CountriesService implements Resolve<any> {
+  countries: ICountry[];
+
   allCountriesChanged: ReplaySubject<ICountry[]>;
 
   /**
@@ -27,7 +29,11 @@ export class CountriesService implements Resolve<any> {
    * @returns {Observable<any> | Promise<any> | any}
    */
   resolve(): Observable<any> | Promise<any> | any {
-    return this.readAll().toPromise();
+    return new Promise((resolve, reject) => {
+      Promise.all([this.readAll().toPromise()]).then(() => {
+        resolve();
+      }, reject);
+    });
   }
 
   // -----------------------------------------------------------------------------------------------
@@ -42,8 +48,9 @@ export class CountriesService implements Resolve<any> {
   readAll(): Observable<ICountry[]> {
     return this._restCountriesService.readAll().pipe(
       map((countries: ICountry[]) => {
-        this.allCountriesChanged.next(countries);
-        return countries;
+        this.countries = countries;
+        this.allCountriesChanged.next(this.countries);
+        return this.countries;
       })
     );
   }
@@ -65,16 +72,16 @@ export class CountriesService implements Resolve<any> {
 
     return forkJoin(requests).pipe(
       map((countriesByRegion: ICountry[][]) => {
-        const countries = countriesByRegion.reduce(
+        this.countries = countriesByRegion.reduce(
           (currentValue, accumulator) => {
             return accumulator.concat(...currentValue);
           },
           []
         );
 
-        this.allCountriesChanged.next(countries);
+        this.allCountriesChanged.next(this.countries);
 
-        return countries;
+        return this.countries;
       })
     );
   }

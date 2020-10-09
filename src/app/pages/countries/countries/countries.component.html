@@ -1,20 +1,18 @@
-<ng-container *ngIf="!loading">
+<div [style]="{ height: '100%', display: !loading ? 'block' : 'none' }">
   <div
-    fxLayout="row"
-    fxLayoutAlign.gt-sm="row"
-    fxLayoutAlign="space-between center"
+    fxLayout="column"
+    fxLayout.gt-sm="row"
+    fxLayoutAlign="start"
+    fxLayoutAlign.gt-sm="space-between center"
     fxLayoutGap="8px"
   >
-    <mat-form-field fxFlex fxFlex.gt-sm="0 1 70%">
+    <!-- Search -->
+    <mat-form-field fxFlex fxFlex.gt-sm="0 1 75%">
       <mat-label>Filter</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Ex. Brazil"
-        #input
-      />
+      <input #filter matInput placeholder="Ex.: Brazil" />
+      <mat-icon class="icon" matSuffix> search </mat-icon>
     </mat-form-field>
-    <mat-form-field fxFlex fxFlex.gt-sm="0 1 30%">
+    <mat-form-field fxFlex fxFlex.gt-sm="0 1 25%">
       <mat-label>Filter by region</mat-label>
       <mat-select
         (selectionChange)="filterByRegion()"
@@ -34,77 +32,96 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <mat-table #table class="mat-elevation-z8" [dataSource]="dataSource" matSort>
+    <!-- Flag Column -->
+    <ng-container matColumnDef="flag">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <img
+          [routerLink]="'/countries/' + row?.name"
+          [src]="row?.flag"
+          alt="Flag"
+          width="25px"
+        />
+      </mat-cell>
+    </ng-container>
 
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-      <!-- Flag Column -->
-      <ng-container matColumnDef="flag">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let row">
-          <img
-            [routerLink]="'/countries/' + row?.name"
-            [src]="row?.flag"
-            alt="Flag"
-            width="25px"
-          />
-        </td>
-      </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.name }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-      </ng-container>
+    <!-- Capital Column -->
+    <ng-container matColumnDef="capital">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Capital
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.capital }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Capital Column -->
-      <ng-container matColumnDef="capital">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Capital</th>
-        <td mat-cell *matCellDef="let row">{{ row.capital }}</td>
-      </ng-container>
+    <!-- Region Column -->
+    <ng-container matColumnDef="region">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Region
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.region }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- region Column -->
-      <ng-container matColumnDef="region">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Region</th>
-        <td mat-cell *matCellDef="let row">{{ row.region }}</td>
-      </ng-container>
+    <!-- Languages Column -->
+    <ng-container matColumnDef="languages">
+      <mat-header-cell *matHeaderCellDef> Languages </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.languages | join: "iso639_2" }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Languages Column -->
-      <ng-container matColumnDef="languages">
-        <th mat-header-cell *matHeaderCellDef>Languages</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.languages | join: "iso639_2" }}
-        </td>
-      </ng-container>
+    <!-- Currencies Column -->
+    <ng-container matColumnDef="currencies">
+      <mat-header-cell *matHeaderCellDef> Currencies </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.currencies | join: "code" }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Currencies Column -->
-      <ng-container matColumnDef="currencies">
-        <th mat-header-cell *matHeaderCellDef>Currencies</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.currencies | join: "code" }}
-        </td>
-      </ng-container>
+    <!-- Population Column -->
+    <ng-container matColumnDef="population">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Population
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        {{ row?.population }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Population Column -->
-      <ng-container matColumnDef="population">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Population</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.population }}
-        </td>
-      </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      matRipple
+    ></mat-row>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- <mat-row *matNoDataRow>
+      <mat-cell>Nenhum país encontrado.</mat-cell>
+    </mat-row> -->
+  </mat-table>
+  <!-- <div *ngIf="dataSource.filteredData?.length === 0">Nada encontrado.</div> -->
 
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">Nenhum país encontrado.</td>
-      </tr>
-    </table>
-
-    <mat-paginator
-      pageSize="10"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      [length]="countries?.length"
-    ></mat-paginator>
-  </div>
-</ng-container>
+  <mat-paginator
+    #paginator
+    [length]="dataSource.filteredData?.length"
+    [pageIndex]="0"
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
